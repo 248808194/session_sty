@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<form  action="login.html" method="post">
+    {% csrf_token %}
+    <input class="username" type="text" name="username" placeholder="username">
+    <input class="password" type="password" name="password" placeholder="password">
+    <input type="submit" value="提交">
+    <input id="b1" type="button" value="ajax 提交">
+
+
+
+</form>
+
+<script src="/static/jquery-1.12.4.js"></script>
+<script src="/static/jquery.cookie.js"></script>
+
+<script>
+    $(function () {
+        $.ajaxSetup({
+            beforeSend: function (xhr,settings) {
+                xhr.setRequestHeader('X-CSRFtoken',$.cookie('csrftoken'));
+            }
+        });
+
+
+        $('#b1').click(function () {
+            var u1 = $('.username').val();
+            var p1 = $('.password').val();
+            console.log(u1,p1);
+
+            $.ajax({
+                url:'/s1/login',
+                type:'POST',
+                data:{'username':u1,'password':p1},
+
+                success:function () {
+                    location.href='/s1/index/'
+                }
+            })
+
+        })
+
+
+    })
+
+
+</script>
+
+
+</body>
+</html>
